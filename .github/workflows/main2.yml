@@ -1,0 +1,31 @@
+name: Chirag Workflow
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: python installation 
+      uses: action/setup-python@v4
+
+    - name: Flask installation
+      run: |
+        python install -r requirements.txt
+
+    - name: run script
+      uses: |
+        python app.py
+        sleep 5
+        curl -f http://localhost:5000 || exit 
+    
